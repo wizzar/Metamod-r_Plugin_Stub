@@ -43,9 +43,9 @@ C_DLLEXPORT void Meta_Init(void) { }
 
 // Metamod requesting info about this plugin:
 // 
-// interfaceVersion		(given)		interface version (META_INTERFACE_VERSION) metamod is using;
-//           plinfo		(requested)	struct with info about plugin that we must provide to metamod;
-//   pMetaUtilFuncs		(given)		table of utility functions provided by metamod;
+// interfaceVersion		(given)		interface version (META_INTERFACE_VERSION) Metamod is using;
+//           plinfo		(requested)	struct with info about plugin that we must provide to Metamod;
+//   pMetaUtilFuncs		(given)		table of utility functions provided by Metamod;
 C_DLLEXPORT int Meta_Query(char *interfaceVersion, plugin_info_t **plinfo, mutil_funcs_t *pMetaUtilFuncs)
 {
 	*plinfo = &Plugin_info;
@@ -57,7 +57,7 @@ C_DLLEXPORT int Meta_Query(char *interfaceVersion, plugin_info_t **plinfo, mutil
 //
 //             now		(given)		current phase, i.e., during map, during changelevel, or at startup;
 //  pFunctionTable		(requested)	table of function tables this plugin catches;
-//       pMGlobals		(given)		global vars from metamod;
+//       pMGlobals		(given)		global vars from Metamod;
 //   pGamedllFuncs		(given)		copy of function tables from game dll;
 // https://github.com/rehlds/Metamod-R/blob/273618c684807a4b3809b23d2fd7a3353b46a5da/metamod/src/mplugin.cpp#L969
 C_DLLEXPORT int Meta_Attach(PLUG_LOADTIME now, META_FUNCTIONS *pFunctionTable, meta_globals_t *pMGlobals, gamedll_funcs_t *pGamedllFuncs)

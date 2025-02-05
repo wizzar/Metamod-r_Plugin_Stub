@@ -3,7 +3,7 @@
 
 /*
 * Functions on this file are called by Metamod here https://github.com/rehlds/Metamod-R/blob/273618c684807a4b3809b23d2fd7a3353b46a5da/metamod/src/mplugin.cpp#L875.
-* To use them, they must be passed to metamod via META_FUNCTIONS defined in meta_api.cpp.
+* To use them, they must be passed to Metamod via META_FUNCTIONS defined in meta_api.cpp.
 * There, we declare which functions the plugin catches.
 *
 * In these functions we give Metamod the functions
