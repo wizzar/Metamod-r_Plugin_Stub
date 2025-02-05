@@ -370,6 +370,7 @@ C_DLLEXPORT int GetEngineFunctions(enginefuncs_t *pengfuncsFromEngine, int *inte
 		ALERT(at_logged, "%s called with null pengfuncsFromEngine", __FUNCTION__);
 		return FALSE;
 	}
+
 	if (*interfaceVersion != ENGINE_INTERFACE_VERSION) {
 		ALERT(at_logged, "%s version mismatch; requested=%d ours=%d", __FUNCTION__, *interfaceVersion, ENGINE_INTERFACE_VERSION);
 		*interfaceVersion = ENGINE_INTERFACE_VERSION;
@@ -386,6 +387,7 @@ C_DLLEXPORT int GetEngineFunctions_Post(enginefuncs_t *pengfuncsFromEngine, int 
 		ALERT(at_logged, "%s called with null pengfuncsFromEngine", __FUNCTION__);
 		return FALSE;
 	}
+
 	if (*interfaceVersion != ENGINE_INTERFACE_VERSION) {
 		ALERT(at_logged, "%s version mismatch; requested=%d ours=%d", __FUNCTION__, *interfaceVersion, ENGINE_INTERFACE_VERSION);
 		*interfaceVersion = ENGINE_INTERFACE_VERSION;
