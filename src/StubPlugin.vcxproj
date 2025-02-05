@@ -90,7 +90,22 @@
       </SDLCheck>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>Default</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)include\sdk\;$(ProjectDir)include\metamod;$(ProjectDir)include\sdk\common;$(ProjectDir)include\sdk\dlls;$(ProjectDir)include\sdk\engine;$(ProjectDir)include\sdk\game_shared;$(ProjectDir)include\sdk\pm_shared;$(ProjectDir)include\sdk\public;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>
+      $(ProjectDir)include\metamod;
+      <!-- $(ProjectDir)include\sdk\;
+      $(ProjectDir)include\sdk\common;
+      $(ProjectDir)include\sdk\dlls;
+      $(ProjectDir)include\sdk\engine;
+      $(ProjectDir)include\sdk\game_shared;
+      $(ProjectDir)include\sdk\pm_shared;
+      $(ProjectDir)include\sdk\public; -->
+      $(ProjectDir)\include\cssdk\common;
+      $(ProjectDir)\include\cssdk\dlls;
+      $(ProjectDir)\include\cssdk\engine;
+      $(ProjectDir)\include\cssdk\game_shared;
+      $(ProjectDir)\include\cssdk\pm_shared;
+      $(ProjectDir)\include\cssdk\public;
+      %(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>Default</LanguageStandard>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <FunctionLevelLinking>
@@ -161,7 +176,6 @@
     <ClCompile Include="rehlds_api_plugin.cpp" />
     <ClCompile Include="h_export.cpp" />
     <ClCompile Include="meta_api.cpp" />
-    <ClCompile Include="regame_includes.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="regame_api_plugin.h" />
