@@ -1,0 +1,1 @@
+Contrary to the sdk, metamod includes work out-of-the-box by just getting them from the latest Metamod-r commit at https://github.com/rehlds/Metamod-R/tree/master/metamod/src.
