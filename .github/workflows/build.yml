@@ -16,6 +16,7 @@ name: Action Build System
 on: [push]
 env:
   CONTAINER: ubuntu:18.04
+  PLUGIN_NAME: stub
 
 jobs:
   linux:
@@ -48,7 +49,6 @@ jobs:
 
     - name: Build
       env:
-        PLUGIN_NAME: stub
         SCRIPT: |
           # Open makefile directory
           cd /desktop/src
@@ -93,7 +93,6 @@ jobs:
     - name: Execute Build
       env:
         PROJ_NAME: StubPlugin
-        PLUGIN_NAME: stub
       working-directory: ${{github.workspace}}
       shell: pwsh  # Ensure we use PowerShell for correct variable expansion
       run: |
