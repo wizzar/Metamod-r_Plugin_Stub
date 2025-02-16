@@ -16,7 +16,7 @@ name: Action Build System
 on: [push]
 env:
   CONTAINER: ubuntu:18.04
-  PLUGIN_NAME: stub
+  PLUGIN_NAME: stub # name of the dll/so built without extension
 
 jobs:
   linux:
