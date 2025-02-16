@@ -97,12 +97,20 @@ if (Test-Path "config\*.cfg") {
 $metamodPluginsIniFilePath = "$hldsPath\cstrike\addons\metamod\plugins.ini"
 if ((Test-Path($metamodPluginsIniFilePath))) {
 
+    $lineToAdd = "addons\$PluginDllName\$PluginDllName.dll"
     $content = Get-Content $metamodPluginsIniFilePath
-    $lineToAdd = "win32 addons\$PluginDllName\$PluginDllName.dll"
+    
+    # Read the file content and trim each line
+    $lines = Get-Content $metamodPluginsIniFilePath
+
+    # Check if the line exists but possibly commented out
+    $regexPattern = '^\s*;*.*\s*win32\s+' + [regex]::escape($lineToAdd) + '\s*$'
+    $exists = $lines -match $regexPattern
 
     # Check if the plugin is already added
-    if ($content -notcontains $lineToAdd) {
-        Add-Content -Path $metamodPluginsIniFilePath -Value $lineToAdd
+    if (!$exists) {
+        # Add the line after the last non-contiguous line
+        Add-Content $metamodPluginsIniFilePath -Value "`nwin32 $lineToAdd"
         Write-Output "Plugin added to metamod's plugins.ini."
     }
 }
