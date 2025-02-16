@@ -10,7 +10,7 @@ Project options:
 		$(ProjectDir)\include\cssdk\public;
 
 Powershell scripts:
-	Adjust $pluginName in PostBuildRelease.ps1 and PostBuildDebug.ps1
+	Adjust $hldsPath and $hldsExecutable in PostBuild.ps1
 
 build.yml:
 	Adjust PLUGIN_NAME to the name of the compiled dll/so, without extension.
