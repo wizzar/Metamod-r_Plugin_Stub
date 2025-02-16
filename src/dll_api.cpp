@@ -145,26 +145,25 @@ NEW_DLL_FUNCTIONS g_NewDllFunctionTable_Post =
 };
 
 
-BOOL Client_Connect_Pre_Hook(edict_t* pEntity, const char* pszName, const char* pszAddress, char szRejectReason[128])
-{
-	SERVER_PRINT("\n\n\tServer running stub_mm extension\n\t\"Client_Connect_Pre_Hook\" was called");
-	RETURN_META_VALUE(MRES_IGNORED, TRUE);//ignored the return value.
-}
-
 C_DLLEXPORT int GetEntityAPI2(DLL_FUNCTIONS *pFunctionTable, int *interfaceVersion)
 {
 	if (!pFunctionTable) {
-		ALERT(at_logged, "%s called with null pFunctionTable", __FUNCTION__);
+		// ALERT only shows up when HLDS ahas "log on".
+		// Let's go ahead and log to console to make debugging easier.
+		//ALERT(at_logged, "%s called with null pFunctionTable", __FUNCTION__);
+		LOG_CONSOLE(PLID, "%s called with null pFunctionTable", __FUNCTION__);
 		return FALSE;
 	}
 
 	if (*interfaceVersion != INTERFACE_VERSION) {
-		ALERT(at_logged, "%s version mismatch; requested=%d ours=%d", __FUNCTION__, *interfaceVersion, INTERFACE_VERSION);
+		// ALERT only shows up when HLDS ahas "log on".
+		// Let's go ahead and log to console to make debugging easier.
+		//ALERT(at_logged, "%s version mismatch; Expected: %d; Found: %d", __FUNCTION__, *interfaceVersion, INTERFACE_VERSION);
+		LOG_CONSOLE(PLID, "%s version mismatch; Expected: %d; Found: %d", __FUNCTION__, *interfaceVersion, INTERFACE_VERSION);
 		*interfaceVersion = INTERFACE_VERSION;
 		return FALSE;
 	}
 
-	g_DllFunctionTable.pfnClientConnect = Client_Connect_Pre_Hook;
 	memcpy(pFunctionTable, &g_DllFunctionTable, sizeof(DLL_FUNCTIONS));
 
 	return TRUE;
@@ -173,12 +172,16 @@ C_DLLEXPORT int GetEntityAPI2(DLL_FUNCTIONS *pFunctionTable, int *interfaceVersi
 C_DLLEXPORT int GetEntityAPI2_Post(DLL_FUNCTIONS *pFunctionTable, int *interfaceVersion)
 {
 	if (!pFunctionTable) {
-		ALERT(at_logged, "%s called with null pFunctionTable", __FUNCTION__);
+		// ALERT only shows up when HLDS ahas "log on".
+		// Let's go ahead and log to console to make debugging easier.
+		LOG_CONSOLE(PLID, "%s called with null pFunctionTable", __FUNCTION__);
 		return FALSE;
 	}
 
 	if (*interfaceVersion != INTERFACE_VERSION) {
-		ALERT(at_logged, "%s version mismatch; requested=%d ours=%d", __FUNCTION__, *interfaceVersion, INTERFACE_VERSION);
+		// ALERT only shows up when HLDS ahas "log on".
+		// Let's go ahead and log to console to make debugging easier.
+		LOG_CONSOLE(PLID, "%s version mismatch; Expected: %d; Found: %d", __FUNCTION__, *interfaceVersion, INTERFACE_VERSION);
 		*interfaceVersion = INTERFACE_VERSION;
 		return FALSE;
 	}
@@ -191,12 +194,16 @@ C_DLLEXPORT int GetEntityAPI2_Post(DLL_FUNCTIONS *pFunctionTable, int *interface
 C_DLLEXPORT int GetNewDLLFunctions(NEW_DLL_FUNCTIONS *pNewFunctionTable, int *interfaceVersion)
 {
 	if (!pNewFunctionTable) {
-		ALERT(at_logged, "%s called with null pNewFunctionTable", __FUNCTION__);
+		// ALERT only shows up when HLDS ahas "log on".
+		// Let's go ahead and log to console to make debugging easier.
+		LOG_CONSOLE(PLID, "%s called with null pNewFunctionTable", __FUNCTION__);
 		return FALSE;
 	}
 
 	if (*interfaceVersion != NEW_DLL_FUNCTIONS_VERSION) {
-		ALERT(at_logged, "%s version mismatch; requested=%d ours=%d", __FUNCTION__, *interfaceVersion, NEW_DLL_FUNCTIONS_VERSION);
+		// ALERT only shows up when HLDS ahas "log on".
+		// Let's go ahead and log to console to make debugging easier.
+		LOG_CONSOLE(PLID, "%s version mismatch; Expected: %d; Found: %d", __FUNCTION__, *interfaceVersion, NEW_DLL_FUNCTIONS_VERSION);
 		*interfaceVersion = NEW_DLL_FUNCTIONS_VERSION;
 		return FALSE;
 	}
@@ -208,12 +215,16 @@ C_DLLEXPORT int GetNewDLLFunctions(NEW_DLL_FUNCTIONS *pNewFunctionTable, int *in
 C_DLLEXPORT int GetNewDLLFunctions_Post(NEW_DLL_FUNCTIONS *pNewFunctionTable, int *interfaceVersion)
 {
 	if (!pNewFunctionTable) {
-		ALERT(at_logged, "%s called with null pNewFunctionTable", __FUNCTION__);
+		// ALERT only shows up when HLDS ahas "log on".
+		// Let's go ahead and log to console to make debugging easier.
+		LOG_CONSOLE(PLID, "%s called with null pNewFunctionTable", __FUNCTION__);
 		return FALSE;
 	}
 
 	if (*interfaceVersion != NEW_DLL_FUNCTIONS_VERSION) {
-		ALERT(at_logged, "%s version mismatch; requested=%d ours=%d", __FUNCTION__, *interfaceVersion, NEW_DLL_FUNCTIONS_VERSION);
+		// ALERT only shows up when HLDS ahas "log on".
+		// Let's go ahead and log to console to make debugging easier.
+		LOG_CONSOLE(PLID, "%s version mismatch; Expected: %d; Found: %d", __FUNCTION__, *interfaceVersion, NEW_DLL_FUNCTIONS_VERSION);
 		*interfaceVersion = NEW_DLL_FUNCTIONS_VERSION;
 		return FALSE;
 	}

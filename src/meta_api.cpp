@@ -3,10 +3,10 @@
 #include "rehlds_api_plugin.h"
 #include "regame_api_plugin.h"
 
+// Define meta_api global externs.
 meta_globals_t *gpMetaGlobals;
 gamedll_funcs_t *gpGamedllFuncs;
 mutil_funcs_t *gpMetaUtilFuncs;
-enginefuncs_t *g_pengfuncsTable;
 
 plugin_info_t Plugin_info =
 {
@@ -64,14 +64,14 @@ C_DLLEXPORT int Meta_Attach(PLUG_LOADTIME now, META_FUNCTIONS *pFunctionTable, m
 {
 	// Store global vars from metamod.
 	if (!pMGlobals) {
-		LOG_ERROR(PLID, "Meta_Attach called with null pMGlobals");
+		LOG_CONSOLE(PLID, "Meta_Attach called with null pMGlobals");
 		return(FALSE);
 	}
 	gpMetaGlobals = pMGlobals;
 
 	// Give metamod function tables this plugin catches.
 	if (!pFunctionTable) {
-		LOG_ERROR(PLID, "Meta_Attach called with null pFunctionTable");
+		LOG_CONSOLE(PLID, "Meta_Attach called with null pFunctionTable");
 		return(FALSE);
 	}
 	memcpy(pFunctionTable, &gMetaFunctionTable, sizeof(META_FUNCTIONS));
@@ -79,17 +79,15 @@ C_DLLEXPORT int Meta_Attach(PLUG_LOADTIME now, META_FUNCTIONS *pFunctionTable, m
 	// Store functions from game dll.
 	gpGamedllFuncs = pGamedllFuncs;
 
-	char buffer[128];
-	std::sprintf(buffer, "\n\n#####\n# Meta_Attach from plugin %s #\n#####\n\n", Plugin_info.name);
-	SERVER_PRINT(buffer);
+	LOG_CONSOLE(PLID, "\n\n#####\n# Meta_Attach from plugin %s #\n#####\n\n", Plugin_info.name);
 
 	// This is not plain metamod only.
 	// Whole nother universe here.
 	if (meta_init_rehlds_api())
-		g_engfuncs.pfnServerPrint("ReHLDS API successfully initialized.\n");
+		LOG_CONSOLE(PLID, "ReHLDS API successfully initialized.\n");
 
-	if (meta_init_regamedll_api())
-		g_engfuncs.pfnServerPrint("ReGameDLL API successfully initialized.\n");
+	if (regamedll_api_init())
+		LOG_CONSOLE(PLID, "ReGameDLL API successfully initialized.\n");
 
 	return TRUE;
 }
@@ -100,6 +98,35 @@ C_DLLEXPORT int Meta_Attach(PLUG_LOADTIME now, META_FUNCTIONS *pFunctionTable, m
 // reason	(given)	why detaching (refresh, console unload, forced unload, etc);
 C_DLLEXPORT int Meta_Detach(PLUG_LOADTIME now, PL_UNLOAD_REASON reason)
 {
-	meta_stop_regamedll_api();
+	regamedll_api_stop();
 	return TRUE;
+}
+
+bool meta_init_rehlds_api()
+{
+#ifdef _WIN32
+	// Find the most appropriate module handle from a list of DLL candidates
+	// Notes:
+	// - "swds.dll" is the library Dedicated Server
+	//
+	//    Let's also attempt to locate the ReHLDS API in the client's library
+	// - "sw.dll" is the client library for Software render, with a built-in listenserver
+	// - "hw.dll" is the client library for Hardware render, with a built-in listenserver
+	const char* dllNames[] = { "swds.dll", "hw.dll", "sw.dll" }; // List of DLL candidates to lookup for the ReHLDS API
+	CSysModule* engineModule = NULL; // The module handle of the selected DLL
+	for (const char* dllName : dllNames)
+	{
+		if (engineModule = Sys_GetModuleHandle(dllName))
+			break; // gotcha
+	}
+
+#else
+	CSysModule* engineModule = Sys_GetModuleHandle("engine_i486.so");
+#endif
+
+	if (!rehlds_api_init(engineModule)) {
+		return false;
+	}
+
+	return true;
 }

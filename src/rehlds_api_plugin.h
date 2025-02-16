@@ -9,5 +9,7 @@ extern IRehldsServerStatic* g_RehldsSvs;
 extern IRehldsServerData* g_RehldsData;
 extern IMessageManager* g_RehldsMessageManager;
 
+bool rehlds_api_init(CSysModule* engineModule);
+
 // Will be called form Metamod API @ Meta_Attach.
 extern bool meta_init_rehlds_api();

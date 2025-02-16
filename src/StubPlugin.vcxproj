@@ -80,12 +80,12 @@
     <IntDir>$(SolutionDir)build\$(Platform)\release\obj</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>$(SolutionDir)build\$(Platform)\debug\bin\</OutDir>
-    <IntDir>$(SolutionDir)build\$(Platform)\debug\obj\</IntDir>
+    <OutDir>$(SolutionDir)build\debug\bin\</OutDir>
+    <IntDir>$(SolutionDir)build\debug\obj\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>$(SolutionDir)build\$(Platform)\release\bin\</OutDir>
-    <IntDir>$(SolutionDir)build\$(Platform)\release\bin\obj</IntDir>
+    <OutDir>$(SolutionDir)build\release\bin\</OutDir>
+    <IntDir>$(SolutionDir)build\release\bin\obj</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -126,6 +126,9 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ModuleDefinitionFile>StubPlugin.def</ModuleDefinitionFile>
     </Link>
+    <PostBuildEvent>
+      <Command>Powershell.exe -ExecutionPolicy Unrestricted -file "$(ProjectDir)PostBuildDebug.ps1"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -143,6 +146,9 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>Powershell.exe -ExecutionPolicy Unrestricted -file "$(ProjectDir)PostBuildRelease.ps1"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -174,7 +180,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="dllapi.cpp" />
+    <ClCompile Include="dll_api.cpp" />
     <ClCompile Include="engine_api.cpp" />
     <ClCompile Include="regame_api_plugin.cpp" />
     <ClCompile Include="rehlds_api_plugin.cpp" />
@@ -184,10 +190,18 @@
   <ItemGroup>
     <ClInclude Include="regame_api_plugin.h" />
     <ClInclude Include="rehlds_api_plugin.h" />
-    <ClInclude Include="wrapper_meta_api.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\.github\workflows\build.yml" />
+    <None Include="config\stub.cfg" />
+    <None Include="Makefile" />
+    <None Include="MakefileDbg" />
+    <None Include="PostBuildDebug.ps1" />
+    <None Include="PostBuildRelease.ps1" />
     <None Include="StubPlugin.def" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="README.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

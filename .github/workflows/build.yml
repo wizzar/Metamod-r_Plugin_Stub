@@ -1,0 +1,84 @@
+#
+# https://github.com/actions/checkout/issues/1590#issuecomment-2567109195
+#
+# We manually start a container and execute scripts in it instead of using `jobs.build.container`,
+# otherwise we couldn't use GitHub-provided actions (checkout, cache, etc.) as they rely on Node20
+# which would not necessarily be available on some containers (e.g., Ubuntu 18.04).
+#
+# See: https://github.com/actions/checkout/issues/1590
+#
+# If you need to pass environment variables from the GitHub host runner to the Docker container,
+# you can do so by adding `-e MY_VAR` to the docker run command, for example:
+#
+#    docker run --name build-container -d -e GITHUB_REPOSITORY -v ...
+#
+name: Action Build System
+on: [push]
+env:
+  CONTAINER: ubuntu:18.04
+
+jobs:
+  linux:
+    name: Linux Build
+    runs-on: ubuntu-latest
+    steps:
+
+    - uses: actions/checkout@v4
+
+    - name: Start Docker Container
+      run: |
+        docker pull $CONTAINER
+        docker run --name build-container -d -v ${{github.workspace}}:/desktop $CONTAINER tail -f /dev/null
+
+    - name: Install Development Tools Packages
+      env:
+        SCRIPT: |
+          # Add i386 architecture
+          dpkg --add-architecture i386
+
+          # Update repository
+          apt-get update > /dev/null
+
+          # Install
+          apt-get install -qq -y wget unzip build-essential gcc-4.8-multilib g++-4.8-multilib libgcc1:i386 libcurl4-openssl-dev:i386 zlib1g-dev:i386 libssl-dev:i386 > /dev/null
+          
+          # Update alternatives
+          update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.8 100 --slave /usr/bin/g++ g++ /usr/bin/g++-4.8
+      run: docker exec build-container bash -c "$SCRIPT"
+
+    - name: Set up environment variables
+      run: echo "PLUGIN_FOLDER=stub" >> $GITHUB_ENV
+
+    - name: Build
+      env:
+        PLUGIN_NAME: stub
+        SCRIPT: |
+          # Open makefile directory
+          cd /desktop/src
+
+          mkdir -p build/release/cstrike/addons/$PLUGIN_NAME
+          mkdir -p build/debug/cstrike/addons/$PLUGIN_NAME
+          
+          echo "Building release..."
+
+          # Make release
+          make -f Makefile
+
+          echo "Building debug..."
+
+          # Make debug
+          make -f MakefileDbg
+
+          cp release/$PLUGIN_NAME.so build/release/cstrike/addons/$PLUGIN_NAME
+          cp config/$PLUGIN_NAME.cfg build/release/cstrike/addons/$PLUGIN_NAME
+
+          cp debug/$PLUGIN_NAME.so build/debug/cstrike/addons/$PLUGIN_NAME
+          cp config/$PLUGIN_NAME.cfg build/debug/cstrike/addons/$PLUGIN_NAME
+
+      run: docker exec build-container bash -c "$SCRIPT"
+
+    - name: Deploy artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: linux32
+        path: ${{github.workspace}}/src/build

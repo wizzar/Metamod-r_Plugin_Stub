@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="dllapi.cpp">
+    <ClCompile Include="dll_api.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="engine_api.cpp">
@@ -41,13 +41,19 @@
     <ClInclude Include="rehlds_api_plugin.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="wrapper_meta_api.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="StubPlugin.def">
       <Filter>Source Files</Filter>
     </None>
+    <None Include="PostBuildDebug.ps1" />
+    <None Include="PostBuildRelease.ps1" />
+    <None Include="..\.github\workflows\build.yml" />
+    <None Include="config\stub.cfg" />
+    <None Include="Makefile" />
+    <None Include="MakefileDbg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="README.txt" />
   </ItemGroup>
 </Project>
