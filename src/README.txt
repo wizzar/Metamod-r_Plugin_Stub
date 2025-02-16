@@ -14,3 +14,6 @@ Powershell scripts:
 
 build.yml:
 	Adjust PLUGIN_NAME to the name of the compiled dll/so, without extension.
+
+Makefile and MakefileDbg:
+	Adjust BUILD_NAME to the desired *.so output name.
