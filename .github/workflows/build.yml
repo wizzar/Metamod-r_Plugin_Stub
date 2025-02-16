@@ -46,9 +46,6 @@ jobs:
           update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.8 100 --slave /usr/bin/g++ g++ /usr/bin/g++-4.8
       run: docker exec build-container bash -c "$SCRIPT"
 
-    - name: Set up environment variables
-      run: echo "PLUGIN_FOLDER=stub" >> $GITHUB_ENV
-
     - name: Build
       env:
         PLUGIN_NAME: stub
@@ -75,7 +72,7 @@ jobs:
           cp debug/$PLUGIN_NAME.so build/debug/cstrike/addons/$PLUGIN_NAME
           cp config/$PLUGIN_NAME.cfg build/debug/cstrike/addons/$PLUGIN_NAME
 
-      run: docker exec build-container bash -c "$SCRIPT"
+      run: docker exec -e PLUGIN_NAME=$PLUGIN_NAME build-container bash -c "$SCRIPT"
 
     - name: Deploy artifacts
       uses: actions/upload-artifact@v4
