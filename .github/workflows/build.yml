@@ -91,14 +91,17 @@ jobs:
       uses: microsoft/setup-msbuild@v2
 
     - name: Execute Build
-      env:
-        PROJ_NAME: StubPlugin
       working-directory: ${{github.workspace}}
       shell: pwsh  # Ensure we use PowerShell for correct variable expansion
       run: |
+        # Find the .vcxproj file dynamically
+        $vcxproj = Get-ChildItem -Path src -Filter "*.vcxproj" | Select-Object -ExpandProperty Name
+        if (-not $vcxproj) { throw "No .vcxproj file found!" }
+
+        Write-Host "Found project file: $vcxproj"
         # Execute Build
-        msbuild "src\$env:PROJ_NAME.vcxproj" -property:configuration=Release -nologo -verbosity:minimal
-        msbuild "src\$env:PROJ_NAME.vcxproj" -property:configuration=Debug -nologo -verbosity:minimal
+        msbuild "src\$vcxproj" -property:configuration=Release -nologo -verbosity:minimal
+        msbuild "src\$vcxproj" -property:configuration=Debug -nologo -verbosity:minimal
 
         # Make publish directory
         New-Item -ItemType Directory -Path "publish/release/cstrike/addons/$env:PLUGIN_NAME" -Force
