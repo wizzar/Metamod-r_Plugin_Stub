@@ -13,4 +13,4 @@ Powershell scripts:
 	Adjust $pluginName in PostBuildRelease.ps1 and PostBuildDebug.ps1
 
 build.yml:
-	s
+	Adjust PLUGIN_NAME to the name of the compiled dll/so, without extension.

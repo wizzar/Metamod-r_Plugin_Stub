@@ -106,8 +106,6 @@ jobs:
         # Make publish directory
         New-Item -ItemType Directory -Path "publish/release/cstrike/addons/$env:PLUGIN_NAME" -Force
         New-Item -ItemType Directory -Path "publish/debug/cstrike/addons/$env:PLUGIN_NAME" -Force
-        # mkdir -p publish\release\cstrike\addons\$env:PLUGIN_NAME
-        # mkdir -p publish\debug\cstrike\addons\$env:PLUGIN_NAME
 
         # Move released dll to publish
         Copy-Item -Path "src/build/release/bin/*.dll" -Destination "publish/release/cstrike/addons/$env:PLUGIN_NAME" -Recurse -Force
@@ -115,11 +113,6 @@ jobs:
 
         Copy-Item -Path "src/build/debug/bin/*.dll" -Destination "publish/debug/cstrike/addons/$env:PLUGIN_NAME" -Recurse -Force
         Copy-Item -Path "src/config/*.cfg" -Destination "publish/debug/cstrike/addons/$env:PLUGIN_NAME" -Recurse -Force
-        # copy src\build\release\bin\*.dll publish\release\cstrike\addons\$env:PLUGIN_NAME -Recurse -Force
-        # copy src\config\*.cfg publish\release\cstrike\addons\$env:PLUGIN_NAME -Recurse -Force
-
-        # copy src\build\debug\bin\*.dll publish\debug\cstrike\addons\$env:PLUGIN_NAME -Recurse -Force
-        # copy src\config\*.cfg publish\debug\cstrike\addons\$env:PLUGIN_NAME -Recurse -Force
 
     - name: Deploy artifacts
       uses: actions/upload-artifact@v4
